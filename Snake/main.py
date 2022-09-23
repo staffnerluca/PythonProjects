@@ -5,47 +5,54 @@ import random
 pygame.init()
 WIDTH, HEIGHT = 900, 900
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Severus Snake")
+pygame.display.set_caption("Snake")
 playerPosition=15*7
 playerLength=1
 BLOCKNUMBER=225
 score=0
 size=0
-appleNumber = 0
-maxApples = 5
+font = pygame.font.SysFont('comicsans', 100)
+run = True
 
 def placeApple(blocks):
-    global appleNumber
-    global maxApples
-    if appleNumber < maxApples:
-        blocks[random.randint(0, 225)].color = (255, 0, 0)
-        appleNumber+=1
+    blocks[random.randint(0, BLOCKNUMBER)].color = (255, 0, 0)
     return blocks
 
-def getApple():
+def getApple(blocks):
     global playerLength
     global score
-    global appleNumber
     playerLength+=1
     score+=1
-    appleNumber-=1
+    blocks = placeApple(blocks)
+    return blocks
 
 def gameOver():
-    pass
+    global score
+    global run
+    txt = font.render(f"Game Over! Score = {score}", 1, (255, 255, 255))
+    WIN.blit(txt, (10, 450))
+    pygame.display.update()
+    run =False
+    pygame.time.delay(5000)
 
 def drawPlayer(move, blocks):
     global playerPosition
     global size
     global playerLength
+    
+    if move == 1 and (playerPosition+move) % 15 == 0:
+        gameOver()
+
+    if move == -1 and (playerPosition-move) % 15 == 0 :
+        gameOver()
 
     if blocks[playerPosition+move].color != (0, 0, 0):
         if blocks[playerPosition+move].color == (255, 0, 0):
-            getApple()
+            blocks = getApple(blocks)
         playerPosition+=move
         blocks[playerPosition].number = size
         blocks[playerPosition].color = (0, 0, 0)
-    
-    
+     
         if size == playerLength:
             for b in blocks:
                 if b.number == 0:
@@ -56,6 +63,10 @@ def drawPlayer(move, blocks):
             size-=1
         else:
             size+=1
+
+    elif blocks[playerPosition+move].color == (0, 0, 0) and move != 0:
+        gameOver()
+
     return blocks
 
 def handleMovement(press):
@@ -99,19 +110,23 @@ def drawWindow(blocks):
     pygame.display.update()
 
 def main():
-    blocks=createField()    
-    run=True
+    global run
+    blocks=createField() 
     move=0
-    while run:
-        pygame.time.Clock().tick(60)
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                run=False
-            blocks = drawPlayer(move, blocks)
+    for i in range(5):
         blocks = placeApple(blocks)
-        keyPressed = pygame.key.get_pressed()
-        move=handleMovement(keyPressed)
-        drawPlayer(move, blocks)
-        drawWindow(blocks)
+    try:
+        while run:
+            pygame.time.Clock().tick(60)
+            for event in pygame.event.get():
+                if event.type==pygame.QUIT:
+                    run=False
+                blocks = drawPlayer(move, blocks)
+            keyPressed = pygame.key.get_pressed()
+            move=handleMovement(keyPressed)
+            drawPlayer(move, blocks)
+            drawWindow(blocks)
+    except IndexError:
+        gameOver()
     pygame.quit()
 main()
