@@ -16,6 +16,12 @@ def createDivision():
         if first % second == 0 and first/second <= 10:
             return f"{first}:{second}=____"
 
+def createAddition(): 
+    while True:
+        first = random.randint(0, 100)
+        second = random.randint(0, 100)
+        if first + second <= 100:
+            return f"{first}+{second}=____"
 
 def createAdditionOrSubtraction():
     while True:
@@ -33,14 +39,23 @@ def createAdditionOrSubtraction():
                 return f"{second}-{first}=____"
 
 def createSubtraction():
-    while True:
-        first = random.randint(0, 100)
-        second = random.randint(0, 100)
-        if first>second:
-            return f"{first}-{second}=____"
+    first = random.randint(0, 100)
+    second = random.randint(0, 100)
+    if first>second:
+        return f"{first}-{second}=____"
+    else:
+        return f"{second}-{first}=____"
+
+def createDivisionRemain():
+    first = random.randint(0, 100)
+    second = random.randint(2, 10)
+    if first>second:
+        return f"{first}:{second}=___"
+    else:
+        return f"{second}:{first}=___"
 
 if __name__ == '__main__':
-    kindOfSlip = int(input("1) Multiplikation; 2) Addition and Subtraction; 3) Division, 4) Subtraction"))
+    kindOfSlip = int(input("1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 5) Division with remainder 6)Addition and subtraction: "))
     pdf = FPDF("P", "mm", "A4")
     size=20
     numberOfSlips=int(input("How many slips are needed?: "))
@@ -56,7 +71,7 @@ if __name__ == '__main__':
                 pdf.cell(40, 10, createMultiplication(), new_x="LMARGIN", new_y="NEXT")
             elif kindOfSlip == 2:
                 for z in range(4):
-                    pdf.cell(40, 10, createAdditionOrSubtraction())
+                    pdf.cell(40, 10, createAddition())
                 pdf.cell(40, 10, createAdditionOrSubtraction(), new_x="LMARGIN", new_y="NEXT")
             elif kindOfSlip == 3:
                 for y in range(4):
@@ -66,4 +81,15 @@ if __name__ == '__main__':
                 for y in range(4):
                     pdf.cell(40, 10, createSubtraction())
                 pdf.cell(40, 10, createSubtraction(), new_x="LMARGIN", new_y="NEXT")
+            elif kindOfSlip == 5:
+                for y in range(4):
+                    pdf.cell(40, 10, createDivisionRemain())
+                pdf.cell(40, 10, createDivisionRemain(), new_x="LMARGIN", new_y="NEXT")
+                for y in range(4):
+                    pdf.cell(40, 10, "R:")
+                pdf.cell(40, 10, "R:",  new_x="LMARGIN", new_y="NEXT")
+            elif kindOfSlip == 6:
+                for y in range(4):
+                    pdf.cell(40, 10, createAdditionOrSubtraction())
+                pdf.cell(40, 10, createAdditionOrSubtraction(), new_x="LMARGIN", new_y="NEXT")
     pdf.output("Caluclations.pdf")
