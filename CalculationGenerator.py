@@ -54,8 +54,18 @@ def createDivisionRemain():
     else:
         return f"{second}:{first}=___"
 
+def createChangeMeasure():
+    lengths = ["mm", "cm", "dm", "m"]
+    while True:
+        original = random.randint(0, 1000)
+        startMeasure = random.randint(0, 3)
+        goalMeasure = random.randint(0, 3)
+        if (startMeasure>goalMeasure or original % 10**(goalMeasure-startMeasure) == 0) and not startMeasure == goalMeasure:
+            return f"{original} {lengths[startMeasure]} = ___ {lengths[goalMeasure]}"
+        
+
 if __name__ == '__main__':
-    kindOfSlip = int(input("1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 5) Division with remainder 6)Addition and subtraction: "))
+    kindOfSlip = int(input("1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 5) Division with remainder 6)Addition and subtraction 7) change measure: "))
     pdf = FPDF("P", "mm", "A4")
     size=20
     numberOfSlips=int(input("How many slips are needed?: "))
@@ -92,4 +102,8 @@ if __name__ == '__main__':
                 for y in range(4):
                     pdf.cell(40, 10, createAdditionOrSubtraction())
                 pdf.cell(40, 10, createAdditionOrSubtraction(), new_x="LMARGIN", new_y="NEXT")
+            elif kindOfSlip == 7:
+                for y in range(3):
+                    pdf.cell(50, 10, createChangeMeasure())
+                pdf.cell(50, 10, createChangeMeasure(), new_x="LMARGIN", new_y="NEXT")
     pdf.output("Caluclations.pdf")
