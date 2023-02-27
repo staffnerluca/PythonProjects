@@ -16,18 +16,11 @@ def createDivision():
         if first % second == 0 and first/second <= 10:
             return f"{first}:{second}=____"
 
-def createAdditionTwoDigits(): 
+def createAddition(digits): 
     while True:
-        first = random.randint(0, 100)
-        second = random.randint(0, 100)
-        if first + second <= 100:
-            return f"{first}+{second}=____"
-
-def createAdditionThreeDigits(): 
-    while True:
-        first = random.randint(0, 1000)
-        second = random.randint(0, 1000)
-        if first + second <= 1000:
+        first = random.randint(0, 10**digits)
+        second = random.randint(0, 10**digits)
+        if first + second <= 100**digits:
             return f"{first}+{second}=____"
 
 def createAdditionOrSubtraction():
@@ -88,8 +81,8 @@ if __name__ == '__main__':
                 pdf.cell(40, 10, createMultiplication(), new_x="LMARGIN", new_y="NEXT")
             elif kindOfSlip == 2:
                 for z in range(4):
-                    pdf.cell(40, 10, createAdditionTwoDigits())
-                pdf.cell(40, 10, createAdditionTwoDigits(), new_x="LMARGIN", new_y="NEXT")
+                    pdf.cell(40, 10, createAddition(2))
+                pdf.cell(40, 10, createAdditionTwoDigits(2), new_x="LMARGIN", new_y="NEXT")
             elif kindOfSlip == 3:
                 for y in range(4):
                     pdf.cell(40, 10, createDivision())
@@ -115,6 +108,6 @@ if __name__ == '__main__':
                 pdf.cell(50, 10, createChangeMeasure(), new_x="LMARGIN", new_y="NEXT")
             elif kindOfSlip == 8:
                 for y in range(3):
-                    pdf.cell(50, 10, createAdditionThreeDigits())
-                pdf.cell(50, 10, createAdditionThreeDigits(), new_x="LMARGIN", new_y="NEXT")
+                    pdf.cell(50, 10, createAddition(3))
+                pdf.cell(50, 10, createAddition3), new_x="LMARGIN", new_y="NEXT")
     pdf.output("Caluclations.pdf")
