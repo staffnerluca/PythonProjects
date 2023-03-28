@@ -71,6 +71,17 @@ def createChangeMeasure():
         if (startMeasure>goalMeasure or original % 10**(goalMeasure-startMeasure) == 0) and not startMeasure == goalMeasure:
             return f"{original} {lengths[startMeasure]} = ___ {lengths[goalMeasure]}"
         
+def createNumberWithIndentation():
+    num = random.randint(0, 1000)
+    tex = ""
+    if num < 10:
+        tex+="       "
+    if num < 100 and num > 10:
+        tex+="     "
+    elif num < 1000 and num > 100:
+        tex+="   "
+    tex += str(num)
+    return tex
 
 if __name__ == '__main__':
     kindOfSlip = int(input("1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits, 9) Addition with numbers under each other: "))
@@ -121,11 +132,11 @@ if __name__ == '__main__':
                     pdf.cell(50, 10, createAddition(3))
                 pdf.cell(50, 10, createAddition(3), new_x="LMARGIN", new_y="NEXT")
         if kindOfSlip == 9:
-            for y in range(4):
+            for y in range(3):
                 for i in range(rows9):
                     for y in range(4):
-                        pdf.cell(50, 10, str(random.randint(0, 1000)))
-                    pdf.cell(50, 10, str(random.randint(0, 1000)), new_x="LMARGIN", new_y="NEXT")
+                        pdf.cell(50, 10, createNumberWithIndentation())
+                    pdf.cell(50, 10, createNumberWithIndentation(), new_x="LMARGIN", new_y="NEXT")
                 for i in range(4):
                     pdf.cell(50, 10, "-------")
                 pdf.cell(50, 10, "-------", new_x="LMARGIN", new_y="NEXT")
