@@ -1,4 +1,3 @@
-#This program creats a slip that contains 100 calculations to study with kids the basics of math. 100 is the highest result you can get.
 import random
 from fpdf import FPDF
 
@@ -23,6 +22,15 @@ def createAddition(digits):
         if first + second <= 100**digits:
             return f"{first}+{second}=____"
 
+def createAdditionUnder(number):
+    while True:
+        output = []
+        su = 0
+        for i in range(number):
+            output.append(random.randint(0, 9999))
+        if not sum(output) > 9999:
+            return output            
+        
 def createAdditionOrSubtraction():
     while True:
         first = random.randint(0, 100)
@@ -65,10 +73,12 @@ def createChangeMeasure():
         
 
 if __name__ == '__main__':
-    kindOfSlip = int(input("1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits: "))
+    kindOfSlip = int(input("1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits, 9) Addition with numbers under each other: "))
     pdf = FPDF("P", "mm", "A4")
     size=20
     numberOfSlips=int(input("How many slips are needed?: "))
+    if kindOfSlip == 9:
+        rows9 = int(input("How many rows? "))
     for i in range(numberOfSlips):
         pdf.add_page()
         pdf.set_font("times", "", 16)
@@ -109,5 +119,18 @@ if __name__ == '__main__':
             elif kindOfSlip == 8:
                 for y in range(3):
                     pdf.cell(50, 10, createAddition(3))
-                pdf.cell(50, 10, createAddition3), new_x="LMARGIN", new_y="NEXT")
+                pdf.cell(50, 10, createAddition(3), new_x="LMARGIN", new_y="NEXT")
+        if kindOfSlip == 9:
+            for y in range(4):
+                for i in range(rows9):
+                    for y in range(4):
+                        pdf.cell(50, 10, str(random.randint(0, 1000)))
+                    pdf.cell(50, 10, str(random.randint(0, 1000)), new_x="LMARGIN", new_y="NEXT")
+                for i in range(4):
+                    pdf.cell(50, 10, "-------")
+                pdf.cell(50, 10, "-------", new_x="LMARGIN", new_y="NEXT")
+                for z in range(2):
+                    for i in range(4):
+                        pdf.cell(50, 10, "")
+                    pdf.cell(50, 10, "", new_x="LMARGIN", new_y="NEXT")
     pdf.output("Caluclations.pdf")
