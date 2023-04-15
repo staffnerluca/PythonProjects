@@ -83,6 +83,16 @@ def createNumberWithIndentation():
     tex += str(num)
     return tex
 
+def subtractionUnder():
+    out = [str(random.randint(0, 1000))]
+    while True:
+        subt = random.randint(-1000, 0)
+        if int(out[0]) >= (subt*(-1)):
+            out.append(str(subt))
+            out.append("------")
+            out.append("       ")
+            return out
+
 if __name__ == '__main__':
     kindOfSlip = int(input("1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits, 9) Addition with numbers under each other: "))
     pdf = FPDF("P", "mm", "A4")
@@ -144,4 +154,16 @@ if __name__ == '__main__':
                     for i in range(4):
                         pdf.cell(50, 10, "")
                     pdf.cell(50, 10, "", new_x="LMARGIN", new_y="NEXT")
+        elif kindOfSlip == 10:
+            lists = []
+            for x in range(5):
+                for i in range(5):
+                    lists.append(subtractionUnder())
+                for y in range(4):
+                    pdf.cell(30, 10, lists[0][y], align = "R")
+                    pdf.cell(30, 10, lists[1][y], align = "R")
+                    pdf.cell(30, 10, lists[2][y], align = "R")
+                    pdf.cell(30, 10, lists[3][y], align = "R")
+                    pdf.cell(30, 10, lists[4][y], align = "R", new_x="LMARGIN", new_y="NEXT")
+                lists = []
     pdf.output("Caluclations.pdf")
