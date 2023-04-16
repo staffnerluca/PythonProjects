@@ -166,4 +166,5 @@ if __name__ == '__main__':
                     pdf.cell(30, 10, lists[3][y], align = "R")
                     pdf.cell(30, 10, lists[4][y], align = "R", new_x="LMARGIN", new_y="NEXT")
                 lists = []
+    pdf.image("Meerschweinchen/"+str(random.randint(1,4))+".jpg", x = 50, y = 200, w = 100, h = 50)
     pdf.output("Caluclations.pdf")
