@@ -93,8 +93,22 @@ def subtractionUnder():
             out.append("       ")
             return out
 
+def createDivisionUnder():
+    while True:
+        a = random.randint(0, 1000)
+        b = random.randint(2, 10)
+        if (a % b) == 0:
+            return f"{a}:{b} = ____"
+        
+def createDivisonUnderWithRemainder():
+    a = random.randint(0, 1000)
+    b = random.randint(2, 10)
+    return f"{a}:{b} = ____"
+
 if __name__ == '__main__':
-    kindOfSlip = int(input("1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits, 9) Addition with numbers under each other: "))
+    kindOfSlip = int(input("""1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 
+    5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits, 
+    9) Addition with numbers under each other, 11) Division with a result larger than ten, 12) the same with remainder: """))
     pdf = FPDF("P", "mm", "A4")
     size=20
     numberOfSlips=int(input("How many slips are needed?: "))
@@ -113,7 +127,7 @@ if __name__ == '__main__':
             elif kindOfSlip == 2:
                 for z in range(4):
                     pdf.cell(40, 10, createAddition(2))
-                pdf.cell(40, 10, createAdditionTwoDigits(2), new_x="LMARGIN", new_y="NEXT")
+                pdf.cell(40, 10, createAddition(2), new_x="LMARGIN", new_y="NEXT")
             elif kindOfSlip == 3:
                 for y in range(4):
                     pdf.cell(40, 10, createDivision())
@@ -166,5 +180,15 @@ if __name__ == '__main__':
                     pdf.cell(30, 10, lists[3][y], align = "R")
                     pdf.cell(30, 10, lists[4][y], align = "R", new_x="LMARGIN", new_y="NEXT")
                 lists = []
+        elif kindOfSlip == 11:
+            for i in range(4):
+                for y in range(4):
+                    pdf.cell(50, 40, createDivisionUnder())
+                pdf.cell(50, 40, createDivisionUnder(), new_x="LMARGIN", new_y="NEXT")
+        elif kindOfSlip == 12:
+            for i in range(4):
+                for y in range(4):
+                    pdf.cell(50, 40, createDivisonUnderWithRemainder())
+                pdf.cell(50, 40, createDivisonUnderWithRemainder(), new_x="LMARGIN", new_y="NEXT")
     pdf.image("Meerschweinchen/"+str(random.randint(1,4))+".jpg", x = 50, y = 200, w = 100, h = 50)
     pdf.output("Caluclations.pdf")
