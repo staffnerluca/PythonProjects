@@ -29,7 +29,12 @@ def createAdditionUnder(number):
         for i in range(number):
             output.append(random.randint(0, 9999))
         if not sum(output) > 9999:
-            return output            
+            return output 
+
+def createMultiplicatonWithNumGreaterTen():
+    first = random.randint(1, 999)
+    second = random.randint(2, 10)
+    return f"{first} * {second} = "                 
         
 def createAdditionOrSubtraction():
     while True:
@@ -108,7 +113,8 @@ def createDivisonUnderWithRemainder():
 if __name__ == '__main__':
     kindOfSlip = int(input("""1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 
     5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits, 
-    9) Addition with numbers under each other, 11) Division with a result larger than ten, 12) the same with remainder: """))
+    9) Addition with numbers under each other, 11) Division with a result larger than ten, 12) the same with remainder, 
+    13) Multiplication with one number greater than 10: """))
     pdf = FPDF("P", "mm", "A4")
     size=20
     numberOfSlips=int(input("How many slips are needed?: "))
@@ -190,5 +196,10 @@ if __name__ == '__main__':
                 for y in range(4):
                     pdf.cell(50, 40, createDivisonUnderWithRemainder())
                 pdf.cell(50, 40, createDivisonUnderWithRemainder(), new_x="LMARGIN", new_y="NEXT")
-    pdf.image("Meerschweinchen/"+str(random.randint(1,4))+".jpg", x = 50, y = 200, w = 100, h = 50)
+        elif kindOfSlip == 13:
+             for i in range(4):
+                for y in range(4):
+                    pdf.cell(50, 40, createMultiplicatonWithNumGreaterTen())
+                pdf.cell(50, 40, createMultiplicatonWithNumGreaterTen(), new_x="LMARGIN", new_y="NEXT")
+    #pdf.image("Meerschweinchen/"+str(random.randint(1,4))+".jpg", x = 50, y = 200, w = 100, h = 50)
     pdf.output("Caluclations.pdf")
