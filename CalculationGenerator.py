@@ -15,12 +15,14 @@ def createDivision():
         if first % second == 0 and first/second <= 10:
             return f"{first}:{second}=____"
 
+
 def createAddition(digits): 
     while True:
         first = random.randint(0, 10**digits)
         second = random.randint(0, 10**digits)
         if first + second <= 100**digits:
             return f"{first}+{second}=____"
+
 
 def createAdditionUnder(number):
     while True:
@@ -31,11 +33,13 @@ def createAdditionUnder(number):
         if not sum(output) > 9999:
             return output 
 
+
 def createMultiplicatonWithNumGreaterTen():
     first = random.randint(1, 999)
     second = random.randint(2, 10)
     return f"{first} * {second} = "                 
-        
+
+
 def createAdditionOrSubtraction():
     while True:
         first = random.randint(0, 100)
@@ -51,6 +55,7 @@ def createAdditionOrSubtraction():
             else:
                 return f"{second}-{first}=____"
 
+
 def createSubtraction():
     first = random.randint(0, 100)
     second = random.randint(0, 100)
@@ -58,6 +63,7 @@ def createSubtraction():
         return f"{first}-{second}=____"
     else:
         return f"{second}-{first}=____"
+
 
 def createDivisionRemain():
     first = random.randint(0, 100)
@@ -67,6 +73,7 @@ def createDivisionRemain():
     else:
         return f"{second}:{first}=___"
 
+
 def createChangeMeasure():
     lengths = ["mm", "cm", "dm", "m"]
     while True:
@@ -75,7 +82,8 @@ def createChangeMeasure():
         goalMeasure = random.randint(0, 3)
         if (startMeasure>goalMeasure or original % 10**(goalMeasure-startMeasure) == 0) and not startMeasure == goalMeasure:
             return f"{original} {lengths[startMeasure]} = ___ {lengths[goalMeasure]}"
-        
+
+
 def createNumberWithIndentation():
     num = random.randint(0, 1000)
     tex = ""
@@ -88,6 +96,7 @@ def createNumberWithIndentation():
     tex += str(num)
     return tex
 
+
 def subtractionUnder():
     out = [str(random.randint(0, 1000))]
     while True:
@@ -98,23 +107,33 @@ def subtractionUnder():
             out.append("       ")
             return out
 
+
 def createDivisionUnder():
     while True:
         a = random.randint(0, 1000)
         b = random.randint(2, 10)
         if (a % b) == 0:
             return f"{a}:{b} = ____"
-        
+
+
 def createDivisonUnderWithRemainder():
     a = random.randint(0, 1000)
     b = random.randint(2, 10)
     return f"{a}:{b} = ____"
 
+
+def createMultiplicationUnderFourDigitFirst():
+    while True:
+        a = random.randint(0, 9999)
+        b = random.randint(0, 100)
+        return f"{a}*{b}"
+
+
 if __name__ == '__main__':
     kindOfSlip = int(input("""1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 
     5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits, 
     9) Addition with numbers under each other, 11) Division with a result larger than ten, 12) the same with remainder, 
-    13) Multiplication with one number greater than 10: """))
+    13) Multiplication with one number greater than 10, 14) Multiplikation zweistelliger Multiplikator: """))
     pdf = FPDF("P", "mm", "A4")
     size=20
     numberOfSlips=int(input("How many slips are needed?: "))
@@ -158,7 +177,7 @@ if __name__ == '__main__':
                     pdf.cell(50, 10, createChangeMeasure())
                 pdf.cell(50, 10, createChangeMeasure(), new_x="LMARGIN", new_y="NEXT")
             elif kindOfSlip == 8:
-                for y in range(3):
+                for y in range(4):
                     pdf.cell(50, 10, createAddition(3))
                 pdf.cell(50, 10, createAddition(3), new_x="LMARGIN", new_y="NEXT")
         if kindOfSlip == 9:
@@ -201,5 +220,17 @@ if __name__ == '__main__':
                 for y in range(4):
                     pdf.cell(50, 40, createMultiplicatonWithNumGreaterTen())
                 pdf.cell(50, 40, createMultiplicatonWithNumGreaterTen(), new_x="LMARGIN", new_y="NEXT")
+        elif kindOfSlip == 14:
+            for i in range(4):
+                for i in range(3):
+                    pdf.cell(50, 5, createMultiplicationUnderFourDigitFirst())
+                pdf.cell(50, 5, createMultiplicationUnderFourDigitFirst(), new_x="LMARGIN", new_y="NEXT")
+                for i in range(3):
+                    pdf.cell(50, 5, "_________")
+                pdf.cell(50, 5, "_________", new_x="LMARGIN", new_y="NEXT")
+                pdf.cell(50, 30, "")
+                for i in range(3):
+                    pdf.cell(50, 40, "")
+                pdf.cell(50, 40, "", new_x="LMARGIN", new_y="NEXT")
     #pdf.image("Meerschweinchen/"+str(random.randint(1,4))+".jpg", x = 50, y = 200, w = 100, h = 50)
     pdf.output("Caluclations.pdf")
