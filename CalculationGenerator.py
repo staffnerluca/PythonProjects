@@ -129,6 +129,17 @@ def createMultiplicationUnderFourDigitFirst():
         return f"{a}*{b}"
 
 
+def createDivisionFiveAndTwoDigits():
+    rest = bool(random.randint(0, 1))
+    while True:
+        a = random.randint(0, 99999)
+        b = random.randint(1, 100)
+        if not rest and a % b == 0:
+            return f"{a}:{b} = "
+        elif a > b:
+            return f"{a}:{b} = "
+
+
 if __name__ == '__main__':
     kindOfSlip = int(input("""1) Multiplikation; 2) Addition, 3) Division, 4) Subtraction, 
     5) Division with remainder 6)Addition and subtraction 7) change measure, 8) Addition three digits, 
@@ -232,5 +243,11 @@ if __name__ == '__main__':
                 for i in range(3):
                     pdf.cell(50, 40, "")
                 pdf.cell(50, 40, "", new_x="LMARGIN", new_y="NEXT")
+        elif kindOfSlip == 15:
+            for i in range(3):
+                pdf.cell(20, 50, "")
+                for y in range(2):
+                    pdf.cell(60, 50, createDivisionFiveAndTwoDigits())
+                pdf.cell(60, 50, createDivisionFiveAndTwoDigits(), new_x="LMARGIN", new_y="NEXT")
     #pdf.image("Meerschweinchen/"+str(random.randint(1,4))+".jpg", x = 50, y = 200, w = 100, h = 50)
     pdf.output("Caluclations.pdf")
